@@ -1,0 +1,15 @@
+{
+  "name": "health-inspect",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Source-linked restaurant inspection records alongside Google Maps.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "check": "node scripts/check.mjs",
+    "test:browser": "node scripts/browser-check.mjs",
+    "test:live": "node scripts/live-check.mjs",
+    "test:extension-live": "node scripts/extension-live-check.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

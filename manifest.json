@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Health Inspect",
+  "version": "0.2.0",
+  "description": "Official Bay Area restaurant inspection records alongside Google Maps.",
+  "minimum_chrome_version": "116",
+  "permissions": ["sidePanel", "storage", "scripting"],
+  "host_permissions": ["https://data.sf.gov/*", "https://data.sccgov.org/*", "https://smcehs.my.site.com/*"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": { "default_title": "Open Health Inspect" },
+  "side_panel": { "default_path": "sidepanel.html" },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.google.com/maps", "https://www.google.com/maps?*",
+        "https://www.google.com/maps/*", "https://maps.google.com/*"
+      ],
+      "js": ["lib/maps-context.js", "lib/display-preferences.js", "inpage-panel.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "sidepanel.html", "sidepanel.css", "sidepanel.js",
+        "lib/counties.js", "lib/county-detection.js", "lib/matching.js", "lib/summary.js", "lib/display-preferences.js"
+      ],
+      "matches": ["https://www.google.com/*", "https://maps.google.com/*"]
+    }
+  ]
+}

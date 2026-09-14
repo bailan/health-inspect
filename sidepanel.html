@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Health Inspect</title>
+    <link rel="stylesheet" href="sidepanel.css">
+  </head>
+  <body>
+    <header><div class="eyebrow">GOOGLE MAPS COMPANION</div><h1>Health Inspect</h1><p>Official records. A little more context.</p></header>
+    <main>
+      <section id="display-settings">
+        <label for="display-mode">Automatic display</label>
+        <select id="display-mode">
+          <option value="floating">Floating panel</option>
+          <option value="inline">In Maps information panel</option>
+        </select>
+        <p id="display-error" class="notice error" role="alert" hidden></p>
+      </section>
+      <section id="inline-result" aria-live="polite"></section>
+      <details id="record-details" open>
+        <summary>Inspection details, history, and match settings</summary>
+        <div class="record-content">
+      <section id="place" hidden><h2 id="place-name"></h2><p id="place-address" class="muted"></p></section>
+      <div id="status" role="status" aria-live="polite"></div>
+      <div id="results"></div>
+      <button id="retry" class="secondary" hidden>Retry lookup</button>
+      <section id="jurisdiction" class="card" hidden>
+        <p id="county-detection" class="hint" aria-live="polite"></p>
+        <details id="county-override">
+          <summary>Change county</summary>
+          <label for="county">Inspection jurisdiction</label>
+          <select id="county">
+            <option value="">Select a county</option>
+            <option value="sf">San Francisco</option>
+            <option value="sm">San Mateo County</option>
+            <option value="sc">Santa Clara County</option>
+          </select>
+          <p class="hint">Only override this if the detected county is incorrect.</p>
+        </details>
+      </section>
+      <section class="card sources"><h2>Official county sources</h2><div id="sources"></div></section>
+        </div>
+      </details>
+    </main>
+    <footer>Independent prototype, not affiliated with Google or the counties. Missing records do not indicate a clean inspection history.</footer>
+    <script type="module" src="sidepanel.js"></script>
+  </body>
+</html>
