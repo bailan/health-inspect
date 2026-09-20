@@ -28,7 +28,7 @@ function reportSize() {
 globalThis.HealthInspectDisplay.observe(value => {
   const changed = displayMode !== value;
   displayMode = value;
-  $("display-mode").value = value;
+  $("display-mode").checked = value === "inline";
   $("display-error").hidden = true;
   document.body.classList.toggle("inline-view", embedded && value === "inline");
   if (changed || !embedded) $("record-details").open = !embedded || value !== "inline" || needsAttention;
@@ -39,11 +39,12 @@ globalThis.HealthInspectDisplay.observe(value => {
 });
 $("display-mode").addEventListener("change", async () => {
   const control = $("display-mode");
+  const value = control.checked ? "inline" : "floating";
   control.disabled = true;
   try {
-    await globalThis.HealthInspectDisplay.save(control.value);
+    await globalThis.HealthInspectDisplay.save(value);
   } catch (error) {
-    control.value = displayMode;
+    control.checked = displayMode === "inline";
     $("display-error").textContent = `Could not save display preference: ${error.message}`;
     $("display-error").hidden = false;
   } finally {

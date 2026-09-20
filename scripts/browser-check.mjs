@@ -127,11 +127,11 @@ try {
     throw new Error(`Browser condition not met: ${expression}`);
   }
   await waitFor("document.querySelector('#status')?.textContent.includes('unknown categories are skipped')");
-  await evaluate(`document.querySelector('#display-mode').value="inline"; document.querySelector('#display-mode').dispatchEvent(new Event("change"))`);
+  await evaluate(`document.querySelector('#display-mode').checked=true; document.querySelector('#display-mode').dispatchEvent(new Event("change"))`);
   await waitFor("localStorage.getItem('fixture-displayMode') === 'inline'");
   assert.equal(await evaluate("document.body.classList.contains('inline-view')"), false);
   assert.equal(await evaluate("document.querySelector('#record-details').open"), true);
-  await evaluate(`document.querySelector('#display-mode').value="floating"; document.querySelector('#display-mode').dispatchEvent(new Event("change"))`);
+  await evaluate(`document.querySelector('#display-mode').checked=false; document.querySelector('#display-mode').dispatchEvent(new Event("change"))`);
   await waitFor("localStorage.getItem('fixture-displayMode') === 'floating'");
   assert.equal(await evaluate("__pending.length"), 0);
   await evaluate("__events.update(5, {status:'complete'})");
@@ -254,7 +254,7 @@ try {
   const beforeModeChange = await evaluate("__lookups.length");
   await evaluate(`(() => { window.__retainedFrame = __panelRoot.querySelector('iframe').contentWindow;
     const mode = ${panelDoc}.querySelector('#display-mode');
-    mode.value = "inline"; mode.dispatchEvent(new Event("change")); })()`);
+    mode.checked = true; mode.dispatchEvent(new Event("change")); })()`);
   await waitFor(`document.querySelector('#health-inspect-panel')?.dataset.layout === 'inline' && ${panelDoc}?.body.classList.contains('inline-view')`);
   assert.equal(await evaluate("document.querySelector('[data-item-id=address]').closest('[role=region]').previousElementSibling.id"), "health-inspect-panel");
   assert.equal(await evaluate(`${panelDoc}.querySelector('#record-details').open`), false);
@@ -282,9 +282,9 @@ try {
   assert.equal(await evaluate("document.querySelectorAll('#health-inspect-panel').length"), 1);
   assert.equal(await evaluate("document.querySelector('[data-item-id=address]').closest('[role=region]').previousElementSibling.id"), "health-inspect-panel");
   await evaluate(`(() => { window.__failDisplaySave = true; const control = ${panelDoc}.querySelector('#display-mode');
-    control.value = "floating"; control.dispatchEvent(new Event("change")); })()`);
+    control.checked = false; control.dispatchEvent(new Event("change")); })()`);
   await waitFor(`${panelDoc}.querySelector('#display-error').textContent.includes('Fixture preference write failed')`);
-  assert.equal(await evaluate(`${panelDoc}.querySelector('#display-mode').value`), "inline");
+  assert.equal(await evaluate(`${panelDoc}.querySelector('#display-mode').checked`), true);
   assert.equal(await evaluate("document.querySelector('#health-inspect-panel').dataset.layout"), "inline");
   await evaluate("window.__failDisplaySave = false");
   await evaluate("document.querySelector('#select-sc').click()");
@@ -293,7 +293,7 @@ try {
   assert.ok(compactSc.includes("2025-01-01"));
   assert.ok(compactSc.includes("Latest inspection: 2025-02-01"));
   assert.ok(!compactSc.includes("Fixture Cafe SM"));
-  await evaluate(`(() => { const mode = ${panelDoc}.querySelector('#display-mode'); mode.value="floating"; mode.dispatchEvent(new Event("change")); })()`);
+  await evaluate(`(() => { const mode = ${panelDoc}.querySelector('#display-mode'); mode.checked=false; mode.dispatchEvent(new Event("change")); })()`);
   await waitFor("document.querySelector('#health-inspect-panel').dataset.layout === 'floating'");
   assert.equal(await evaluate(`${panelDoc}.querySelector('#record-details').open`), true);
   assert.ok((await evaluate(`${panelDoc}.querySelector('#county-detection').textContent`)).includes("detected automatically"));
@@ -340,17 +340,17 @@ try {
   }}; document.querySelector('#select-sc').click()`);
   await waitFor(`${panelDoc}?.querySelector('[data-candidate-key=two]') != null`);
   for (const value of ["floating", "inline"]) {
-    await evaluate(`(() => { const control = ${panelDoc}.querySelector('#display-mode'); control.value="${value}"; control.dispatchEvent(new Event("change")); })()`);
+    await evaluate(`(() => { const control = ${panelDoc}.querySelector('#display-mode'); control.checked=${value === "inline"}; control.dispatchEvent(new Event("change")); })()`);
     await waitFor(`document.querySelector('#health-inspect-panel').dataset.layout === '${value}'`);
     assert.equal(await evaluate(`${panelDoc}.querySelector('#record-details').open`), true);
   }
   await evaluate("document.documentElement.moveBefore = undefined; document.querySelector('main').moveBefore = undefined");
   for (const value of ["floating", "inline"]) {
-    await evaluate(`(() => { const control = ${panelDoc}.querySelector('#display-mode'); control.value="${value}"; control.dispatchEvent(new Event("change")); })()`);
+    await evaluate(`(() => { const control = ${panelDoc}.querySelector('#display-mode'); control.checked=${value === "inline"}; control.dispatchEvent(new Event("change")); })()`);
     await waitFor(`document.querySelector('#health-inspect-panel').dataset.layout === '${value}' && ${panelDoc}?.querySelector('#results')?.textContent.includes('Official score: 95')`);
     assert.equal(await evaluate("document.querySelectorAll('#health-inspect-panel').length"), 1);
   }
-  console.log("Browser checks passed: selectable persistent inline/floating layouts, compact sizing, Maps rerenders/fallback, matching and errors, non-food suppression, safe rendering, and reload recovery.");
+  console.log("Browser checks passed: switchable persistent inline/floating layouts, compact sizing, Maps rerenders/fallback, matching and errors, non-food suppression, safe rendering, and reload recovery.");
 } finally {
   socket?.close();
   if (browser && browser.exitCode === null) {

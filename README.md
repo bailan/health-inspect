@@ -21,11 +21,12 @@ browser-native JavaScript modules, no TypeScript or third-party dependencies.
 
 ### Display modes
 
-Toggle **Automatic display** at the top of the panel:
+A switch at the top of the panel controls where results appear:
 
-- **Floating panel** (default) — overlay on the right side of Maps.
-- **In Maps information panel** — a compact card inserted into Maps' own info
-  panel, with an expandable section for full details and match controls.
+- **Off** (default) — **Floating panel**: overlay on the right side of Maps.
+- **On** — **In Maps information panel**: a compact card inserted into Maps'
+  own info panel, with an expandable section for full details and match
+  controls.
 
 The choice is saved locally and applies across tabs and restarts.
 

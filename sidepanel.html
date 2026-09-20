@@ -10,11 +10,13 @@
     <header><div class="eyebrow">GOOGLE MAPS COMPANION</div><h1>Health Inspect</h1><p>Official records. A little more context.</p></header>
     <main>
       <section id="display-settings">
-        <label for="display-mode">Automatic display</label>
-        <select id="display-mode">
-          <option value="floating">Floating panel</option>
-          <option value="inline">In Maps information panel</option>
-        </select>
+        <div class="switch-row">
+          <span id="display-mode-label">Show inline in Maps information panel</span>
+          <label class="switch">
+            <input type="checkbox" id="display-mode" role="switch" aria-labelledby="display-mode-label">
+            <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+          </label>
+        </div>
         <p id="display-error" class="notice error" role="alert" hidden></p>
       </section>
       <section id="inline-result" aria-live="polite"></section>
