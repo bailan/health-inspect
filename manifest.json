@@ -7,7 +7,7 @@
   "permissions": ["sidePanel", "storage", "scripting"],
   "host_permissions": ["https://data.sf.gov/*", "https://data.sccgov.org/*", "https://smcehs.my.site.com/*"],
   "background": { "service_worker": "background.js", "type": "module" },
-  "action": { "default_title": "Open Health Inspect" },
+  "action": { "default_title": "Health Inspect settings", "default_popup": "options.html" },
   "side_panel": { "default_path": "sidepanel.html" },
   "content_scripts": [
     {

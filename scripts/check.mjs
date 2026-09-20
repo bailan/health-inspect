@@ -3,10 +3,10 @@ import { spawnSync } from "node:child_process";
 const root = new URL("../", import.meta.url);
 const manifest = JSON.parse(await readFile(new URL("manifest.json", root), "utf8"));
 const referenced = [
-  manifest.background.service_worker, manifest.side_panel.default_path,
+  manifest.background.service_worker, manifest.side_panel.default_path, manifest.action.default_popup,
   ...manifest.content_scripts.flatMap(script => script.js),
   ...manifest.web_accessible_resources.flatMap(resource => resource.resources),
-  "sidepanel.js", "sidepanel.css",
+  "sidepanel.js", "sidepanel.css", "options.js",
 ];
 for (const file of referenced) await access(new URL(file, root));
 async function check(directory) {

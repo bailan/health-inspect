@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Health Inspect settings</title>
+    <link rel="stylesheet" href="sidepanel.css">
+  </head>
+  <body class="options-page">
+    <header><div class="eyebrow">GOOGLE MAPS COMPANION</div><h1>Health Inspect</h1><p>Settings</p></header>
+    <main>
+      <section id="display-settings">
+        <div class="switch-row">
+          <span id="display-mode-label">Show inline in Maps information panel</span>
+          <label class="switch">
+            <input type="checkbox" id="display-mode" role="switch" aria-labelledby="display-mode-label">
+            <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+          </label>
+        </div>
+        <p id="display-error" class="notice error" role="alert" hidden></p>
+      </section>
+      <button id="open-side-panel" class="secondary">Open native side panel</button>
+      <p id="side-panel-error" class="notice error" role="alert" hidden></p>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>
