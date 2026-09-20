@@ -24,7 +24,15 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 3px solid
 .candidate:disabled { cursor: default; color: #52666a; border-color: #a9bbb4; background: #f4f7f6; }
 .notice { padding: 14px; background: #fff5da; border: 1px solid #d8b872; border-radius: 8px; line-height: 1.5; margin-top: 14px; }
 .error { background: #fff0ed; border-color: #c68778; }
-.loading { color: #52666a; padding: 18px 0; }
+.loading { color: #52666a; padding: 18px 0; display: flex; align-items: center; gap: 10px; }
+.loading::before {
+  content: "";
+  width: 14px; height: 14px; flex-shrink: 0;
+  border: 2px solid #cbd8d5; border-top-color: #173f3b; border-radius: 50%;
+  animation: hi-spin .8s linear infinite;
+}
+@keyframes hi-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .loading::before { animation: none; } }
 .tag { display: inline-block; padding: 4px 8px; background: #e4efea; border-radius: 5px; font-size: 12px; font-weight: 650; }
 a { color: #126054; text-underline-offset: 3px; }
 .sources a { display: block; margin: 10px 0; }
