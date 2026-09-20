@@ -28,28 +28,11 @@ function reportSize() {
 globalThis.HealthInspectDisplay.observe(value => {
   const changed = displayMode !== value;
   displayMode = value;
-  $("display-mode").checked = value === "inline";
-  $("display-error").hidden = true;
   document.body.classList.toggle("inline-view", embedded && value === "inline");
   if (changed || !embedded) $("record-details").open = !embedded || value !== "inline" || needsAttention;
   reportSize();
 }, error => {
-  $("display-error").textContent = `Could not read display preference: ${error.message}`;
-  $("display-error").hidden = false;
-});
-$("display-mode").addEventListener("change", async () => {
-  const control = $("display-mode");
-  const value = control.checked ? "inline" : "floating";
-  control.disabled = true;
-  try {
-    await globalThis.HealthInspectDisplay.save(value);
-  } catch (error) {
-    control.checked = displayMode === "inline";
-    $("display-error").textContent = `Could not save display preference: ${error.message}`;
-    $("display-error").hidden = false;
-  } finally {
-    control.disabled = false;
-  }
+  console.error("[Health Inspect] Could not read display preference:", error);
 });
 if (embedded) {
   new ResizeObserver(reportSize).observe(document.body);

@@ -21,6 +21,7 @@ the map for making code changes.
 | Background service worker | `background.js` | Extension-icon/side-panel lifecycle changes |
 | Maps content script + in-page panel | `content.js`, `inpage-panel.js` | Changing how the panel renders on Maps |
 | Native side panel UI | `sidepanel.html`, `sidepanel.js`, `sidepanel.css` | Changing the Chrome side-panel UI |
+| Toolbar-icon settings popup | `options.html`, `options.js` | Changing the icon-click popup (display switch, manual side-panel launcher) |
 | County detection & source dispatch | `lib/county-detection.js`, `lib/counties.js`, `lib/sources.js` | Adding a county or changing routing |
 | Restaurant name/address matching | `lib/matching.js` | Improving match accuracy |
 | Per-county data adapters | `lib/san-mateo.js`, `lib/san-mateo-request.js`, `lib/san-mateo-transport.js` | San Mateo portal/Aura bridge changes |

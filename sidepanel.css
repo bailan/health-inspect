@@ -1,6 +1,8 @@
 :root { color-scheme: light; font-family: system-ui, -apple-system, sans-serif; color: #192c30; background: #f4f7f6; font-size: 14px; }
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 280px; }
+body.options-page { width: 320px; }
+body.options-page main { display: flex; flex-direction: column; gap: 12px; }
 header { padding: 26px 20px 20px; background: #173f3b; color: white; }
 .eyebrow { font-size: 10px; letter-spacing: 1.8px; color: #b7d9cd; font-weight: 700; }
 h1 { font-size: 27px; margin: 8px 0; letter-spacing: -1px; }
@@ -52,7 +54,4 @@ footer { padding: 8px 20px 24px; color: #52666a; font-size: 12px; line-height: 1
 .inline-view #inline-result h2 { font-size: 15px; }
 .inline-view #record-details { border-top: 1px solid #d8e1de; margin-top: 12px; padding-top: 10px; }
 .inline-view #record-details > summary { display: list-item; font-size: 12px; }
-.inline-view #display-settings { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-.inline-view #display-mode-label { margin: 0; }
-.inline-view #display-error { width: 100%; }
 .inline-view #inline-result .notice, .inline-view #inline-result .loading { margin: 0; padding: 8px; }

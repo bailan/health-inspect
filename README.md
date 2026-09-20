@@ -13,8 +13,9 @@ restaurant health inspection records beside Google Maps.
 4. The **Health Inspect** panel appears automatically and loads records for the
    detected county — no click needed. Selecting another restaurant refreshes it.
 
-The extension icon also opens an optional native Chrome side panel with the same
-results, if you prefer that over the in-page panel.
+The extension icon opens a small settings popup (display-mode switch and a
+button to open the native Chrome side panel manually), not the results panel
+itself.
 
 No build step, install, API key, account, or backend is required — it's plain
 browser-native JavaScript modules, no TypeScript or third-party dependencies.
@@ -73,6 +74,8 @@ categories on Maps, and only recognize U.S. English Maps category labels.
   the in-page panel (Shadow DOM, anchored to the address section).
 - `background.js` — service worker that performs county lookups.
 - `sidepanel.js` — renders the native Chrome side panel.
+- `options.js` / `options.html` — the toolbar-icon settings popup (display-mode
+  switch, manual side-panel launcher).
 - `lib/matching.js` — conservative facility matching.
 - `lib/summary.js` — deterministic summaries (no AI service involved).
 - `lib/county-detection.js`, `lib/san-mateo*.js` — county routing and the San

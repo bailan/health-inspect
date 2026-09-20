@@ -12,10 +12,8 @@ function isMaps(value) {
     || (url.hostname === "www.google.com" && (url.pathname === "/maps" || url.pathname.startsWith("/maps/"))));
 }
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })
-    .catch(error => console.error("[Health Inspect] Cannot configure side panel:", error));
-});
+// The toolbar icon opens options.html (a settings popup) instead of the side
+// panel; the panel is opened explicitly from there via chrome.sidePanel.open().
 
 chrome.tabs.onRemoved.addListener(tabId => {
   chrome.storage.session.remove([contextKey(tabId), sourceKey(tabId)])
