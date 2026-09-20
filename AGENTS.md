@@ -18,6 +18,7 @@ the map for making code changes.
 | Topic | Location | Read When |
 |-------|----------|-----------|
 | Extension wiring (permissions, content scripts, resources) | `manifest.json` | Adding/moving files, new hosts, new permissions |
+| Extension icon | `icons/` | Changing the toolbar/extensions-page icon artwork |
 | Background service worker | `background.js` | Extension-icon/side-panel lifecycle changes |
 | Maps content script + in-page panel | `content.js`, `inpage-panel.js` | Changing how the panel renders on Maps |
 | Native side panel UI | `sidepanel.html`, `sidepanel.js`, `sidepanel.css` | Changing the Chrome side-panel UI |

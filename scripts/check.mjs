@@ -4,6 +4,7 @@ const root = new URL("../", import.meta.url);
 const manifest = JSON.parse(await readFile(new URL("manifest.json", root), "utf8"));
 const referenced = [
   manifest.background.service_worker, manifest.side_panel.default_path, manifest.action.default_popup,
+  manifest.action.default_icon, ...Object.values(manifest.icons),
   ...manifest.content_scripts.flatMap(script => script.js),
   ...manifest.web_accessible_resources.flatMap(resource => resource.resources),
   "sidepanel.js", "sidepanel.css", "options.js",
