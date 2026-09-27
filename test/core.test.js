@@ -3,27 +3,27 @@ import assert from "node:assert/strict";
 import "../lib/maps-context.js";
 import { selectMatch, streetKey, nameSimilarity, addressSimilarity } from "../lib/matching.js";
 import { summarize, isRoutineInspection } from "../lib/summary.js";
-import { inferCounty } from "../lib/county-detection.js";
+import "../lib/county-detection.js";
 
 const place = { name: "Example Cafe", address: "123 Main Street, San Francisco, CA 94103", key: "test" };
 const facility = { id: "1", name: "Example Cafe", address: "123 Main St", postalCode: "94103" };
 
 test("county detection uses city components, not similar city or street names", () => {
-  assert.equal(inferCounty("1 Main St, South San Francisco, CA 94080"), "sm");
-  assert.equal(inferCounty("1 Main St, San Francisco, CA"), "sf");
-  assert.equal(inferCounty("1 Main St, Palo Alto, CA"), "sc");
-  assert.equal(inferCounty("1 Main St, East Palo Alto, CA"), "sm");
-  assert.equal(inferCounty("1 San Francisco St, Oakland, CA"), null);
-  assert.equal(inferCounty("1 Main St, San Jose, Other Country"), null);
-  assert.equal(inferCounty("1 Main St, San Jose CA 95113"), "sc");
-  assert.equal(inferCounty("1 Main St\nSan Mateo\nCalifornia 94401"), "sm");
-  assert.equal(inferCounty("1 Main St, San Jos\u00e9, California 95113-1234, USA"), "sc");
-  assert.equal(inferCounty("1 Main St, Suite 2, North Fair Oaks, CA 94025"), "sm");
-  assert.equal(inferCounty("1 Main St, Santa Clara County, CA"), "sc");
-  assert.equal(inferCounty("1 Main St, San Francisco, Oakland, CA"), null);
-  assert.equal(inferCounty("1 Main St, San Jose, IL 61854"), null);
-  assert.equal(inferCounty("1 Main St, CA 94103"), null);
-  assert.equal(inferCounty("1 Main St, Unknown City, CA 94000"), null);
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, South San Francisco, CA 94080"), "sm");
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, San Francisco, CA"), "sf");
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, Palo Alto, CA"), "sc");
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, East Palo Alto, CA"), "sm");
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 San Francisco St, Oakland, CA"), null);
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, San Jose, Other Country"), null);
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, San Jose CA 95113"), "sc");
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St\nSan Mateo\nCalifornia 94401"), "sm");
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, San Jos\u00e9, California 95113-1234, USA"), "sc");
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, Suite 2, North Fair Oaks, CA 94025"), "sm");
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, Santa Clara County, CA"), "sc");
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, San Francisco, Oakland, CA"), null);
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, San Jose, IL 61854"), null);
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, CA 94103"), null);
+  assert.equal(globalThis.HealthInspectCounty.inferCounty("1 Main St, Unknown City, CA 94000"), null);
 });
 
 test("Maps context requires consistent URL, title and street address", () => {
@@ -38,6 +38,14 @@ test("Maps context requires consistent URL, title and street address", () => {
 test("malformed Maps URLs do not crash extraction", () => {
   assert.equal(globalThis.HealthInspectMaps.contextFromSnapshot({ url: "bad", category: "Restaurant" }), null);
   assert.equal(globalThis.HealthInspectMaps.contextFromSnapshot({ url: "https://www.google.com/maps/place/%ZZ", name: "x", address: "1 Road", category: "Restaurant" }), null);
+});
+
+test("the panel only surfaces places in a currently supported county", () => {
+  const outOfArea = { url: "https://www.google.com/maps/place/Example+Cafe/data=x", name: "Example Cafe", category: "Cafe" };
+  assert.equal(globalThis.HealthInspectMaps.contextFromSnapshot({ ...outOfArea, address: "1 Main St, Oakland, CA 94612" }), null);
+  assert.equal(globalThis.HealthInspectMaps.contextFromSnapshot({ ...outOfArea, address: "1 Main St, New York, NY 10001" }), null);
+  const inArea = globalThis.HealthInspectMaps.contextFromSnapshot({ ...outOfArea, address: "1 Main St, San Francisco, CA 94103" });
+  assert.equal(inArea.county, "sf");
 });
 
 test("food eligibility uses Maps categories, not business names or loose substrings", () => {

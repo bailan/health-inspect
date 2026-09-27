@@ -1,5 +1,4 @@
 import { COUNTIES } from "./lib/counties.js";
-import { inferCounty } from "./lib/county-detection.js";
 import { summarize } from "./lib/summary.js";
 import "./lib/display-preferences.js";
 
@@ -259,7 +258,7 @@ async function runLookup(candidateKey) {
   }
   if (!$("county").value) {
     needsAttention = true;
-    status("Choose the restaurant's county using the selector below. The address could not be assigned to a supported jurisdiction automatically.");
+    status("Choose the restaurant's county using the selector below.");
     $("record-details").open = true;
     return;
   }
@@ -295,7 +294,8 @@ function setPlace(next) {
   $("place-name").textContent = place?.name || "";
   $("place-address").textContent = place?.address || "";
   if (place) {
-    const county = inferCounty(place.address);
+    // The content script only publishes places already matched to a supported county.
+    const county = place.county;
     $("county").value = county || "";
     $("county-detection").textContent = county
       ? `${COUNTIES[county].name} · detected automatically from Google Maps`

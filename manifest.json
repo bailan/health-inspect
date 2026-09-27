@@ -16,7 +16,7 @@
         "https://www.google.com/maps", "https://www.google.com/maps?*",
         "https://www.google.com/maps/*", "https://maps.google.com/*"
       ],
-      "js": ["lib/maps-context.js", "lib/display-preferences.js", "inpage-panel.js", "content.js"],
+      "js": ["lib/maps-context.js", "lib/county-detection.js", "lib/display-preferences.js", "inpage-panel.js", "content.js"],
       "run_at": "document_idle"
     }
   ],
@@ -24,7 +24,7 @@
     {
       "resources": [
         "sidepanel.html", "sidepanel.css", "sidepanel.js",
-        "lib/counties.js", "lib/county-detection.js", "lib/matching.js", "lib/summary.js", "lib/display-preferences.js"
+        "lib/counties.js", "lib/matching.js", "lib/summary.js", "lib/display-preferences.js"
       ],
       "matches": ["https://www.google.com/*", "https://maps.google.com/*"]
     }

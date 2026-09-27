@@ -4,6 +4,7 @@ import vm from "node:vm";
 import { readFile } from "node:fs/promises";
 
 const parser = await readFile(new URL("../lib/maps-context.js", import.meta.url), "utf8");
+const countyDetection = await readFile(new URL("../lib/county-detection.js", import.meta.url), "utf8");
 const script = await readFile(new URL("../content.js", import.meta.url), "utf8");
 
 function harness({ sendMessage = async () => ({ ok: true }) } = {}) {
@@ -37,6 +38,7 @@ function harness({ sendMessage = async () => ({ ok: true }) } = {}) {
     } },
   });
   vm.runInContext(parser, context);
+  vm.runInContext(countyDetection, context);
   vm.runInContext(script, context);
   async function settle() {
     await new Promise(resolve => setImmediate(resolve));
