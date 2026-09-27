@@ -77,7 +77,7 @@ try {
     __events.storage = (...args) => storageListeners.forEach(listener => listener(...args));
     window.__pending = [];
     window.__firstRead = true;
-    window.__place = { name: "Browser Fixture Cafe", address: "123 Main St, San Francisco, CA 94103", category: "Cafe", key: "fixture-1" };
+    window.__place = { name: "Browser Fixture Cafe", address: "123 Main St, San Francisco, CA 94103", category: "Cafe", county: "sf", key: "fixture-1" };
     window.chrome = {
       runtime: { sendMessage: message => {
         if (message.type === "READ_SELECTED_PLACE") {
@@ -113,7 +113,7 @@ try {
     };
     window.close = () => { window.__closed = true; };
     window.__select = (name, key) => {
-      __place = { name, key, address: "123 Main St, San Francisco, CA 94103", category: "Cafe" };
+      __place = { name, key, address: "123 Main St, San Francisco, CA 94103", category: "Cafe", county: "sf" };
       __events.storage({ "place:5": { newValue: __place } }, "session");
     };
     })();
@@ -297,9 +297,8 @@ try {
   assert.ok((await evaluate(`${panelDoc}.querySelector('#county-detection').textContent`)).includes("detected automatically"));
   const lookupCount = await evaluate("__lookups.length");
   await evaluate("document.querySelector('#select-unknown').click()");
-  await waitFor(`${panelDoc}?.querySelector('#county-override')?.open === true`);
+  await waitFor("getComputedStyle(document.querySelector('#health-inspect-panel')).display === 'none'");
   assert.equal(await evaluate("__lookups.length"), lookupCount);
-  assert.equal(await evaluate(`${panelDoc}.querySelector('#county').value`), "");
   await evaluate("document.querySelector('#clear-place').click()");
   await waitFor("getComputedStyle(document.querySelector('#health-inspect-panel')).display === 'none'");
   assert.equal(await evaluate("__panelRoot.querySelector('iframe').src"), "about:blank");
@@ -325,8 +324,10 @@ try {
   await waitFor("getComputedStyle(document.querySelector('#health-inspect-panel')).display === 'none'");
   assert.equal(await evaluate("__lookups.length"), 1);
   await evaluate("document.querySelector('#select-unknown').click()");
-  await waitFor(`${panelDoc}?.querySelector('#county-override')?.open === true`);
-  assert.equal(await evaluate(`${panelDoc}.querySelector('#record-details').open`), true);
+  await new Promise(resolve => setTimeout(resolve, 100));
+  // Addresses outside the three supported counties never open the panel at all.
+  assert.equal(await evaluate("getComputedStyle(document.querySelector('#health-inspect-panel')).display"), "none");
+  assert.equal(await evaluate("__lookups.length"), 1);
   await evaluate(`window.__nextLookupResponse = {ok:false,error:"Inline fixture source error"}; document.querySelector('#select-sf').click()`);
   await waitFor(`${panelDoc}?.querySelector('#inline-result')?.textContent.includes('Inline fixture source error')`);
   assert.equal(await evaluate(`${panelDoc}.querySelector('#record-details').open`), true);

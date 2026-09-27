@@ -23,12 +23,12 @@ the map for making code changes.
 | Maps content script + in-page panel | `content.js`, `inpage-panel.js` | Changing how the panel renders on Maps |
 | Native side panel UI | `sidepanel.html`, `sidepanel.js`, `sidepanel.css` | Changing the Chrome side-panel UI |
 | Toolbar-icon settings popup | `options.html`, `options.js` | Changing the icon-click popup (display switch, manual side-panel launcher) |
-| County detection & source dispatch | `lib/county-detection.js`, `lib/counties.js`, `lib/sources.js` | Adding a county or changing routing |
+| County detection & source dispatch | `lib/county-detection.js`, `lib/counties.js`, `lib/sources.js` | Adding a county or changing routing; `inferCounty()` also gates whether the panel appears at all (classic script, `globalThis.HealthInspectCounty`, no `import`/`export`) |
 | Restaurant name/address matching | `lib/matching.js` | Improving match accuracy |
 | Per-county data adapters | `lib/san-mateo.js`, `lib/san-mateo-request.js`, `lib/san-mateo-transport.js` | San Mateo portal/Aura bridge changes |
 | San Mateo in-page bridge (runs in the portal tab) | `san-mateo-bridge.js` | Changing the read-only bridge injected into the county portal |
 | Shared HTTP + summary helpers | `lib/http.js`, `lib/summary.js`, `lib/source-utils.js` | Cross-county fetch/formatting logic |
-| Maps DOM context extraction | `lib/maps-context.js` | Reading restaurant name/address from Maps DOM |
+| Maps DOM context extraction | `lib/maps-context.js` | Reading restaurant name/address from Maps DOM; suppresses non-food places and addresses outside supported counties |
 | Display mode persistence | `lib/display-preferences.js` | Floating vs. inline vs. sidebar preference logic |
 | Unit tests | `test/*.test.js` | Any change to `lib/`, `content.js`, or `background.js` |
 | Manifest/syntax validation, live/browser checks | `scripts/` | Before committing; see Build & Test below |

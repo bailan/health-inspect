@@ -66,7 +66,10 @@ or **Town, San Carlos**.
   identity and dates yourself.
 
 Inspection lookups only run for restaurants/cafes/bakeries/similar food-service
-categories on Maps, and only recognize U.S. English Maps category labels.
+categories on Maps, and only recognize U.S. English Maps category labels. The
+panel only appears for addresses in one of the three currently supported
+counties (San Francisco, San Mateo, Santa Clara) — other places are treated
+like non-food places (no panel shown).
 
 ## Architecture
 
@@ -78,8 +81,11 @@ categories on Maps, and only recognize U.S. English Maps category labels.
   switch, manual side-panel launcher).
 - `lib/matching.js` — conservative facility matching.
 - `lib/summary.js` — deterministic summaries (no AI service involved).
-- `lib/county-detection.js`, `lib/san-mateo*.js` — county routing and the San
-  Mateo Salesforce/Aura adapter.
+- `lib/county-detection.js` — maps a Maps address to a supported county (or
+  `null`), gating whether the panel appears at all; `lib/san-mateo*.js` is the
+  San Mateo Salesforce/Aura adapter. Add a county by extending its `cities`
+  map and `lib/counties.js`'s data-source config — no other code changes
+  needed.
 
 See [AGENTS.md](AGENTS.md) for a fuller map of the codebase.
 
